@@ -5,5 +5,5 @@
 	depth = "1"
 
 	[deps.coreos_setup]
-	src = "git://github.com/jinal--shah/demo-coreos-vagrant-setup"
-	ref = "add-docker-cleanup-script"
+	src = "https://github.com/jinal--shah/build-scripts-alpine"
+	ref = "0.0.3"

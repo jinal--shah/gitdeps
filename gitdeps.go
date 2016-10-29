@@ -56,9 +56,8 @@ func ProcessFile(file_name string) error {
 	clone_path_base := filepath.Dir(file_name)
 
 	for dest_dir, dep := range c.Deps {
-		clone_cmd := git.GitCloneCmdArgs(clone_path_base + "/" + dest_dir, dep)
-		fmt.Printf("INFO: clone cmd slice:\n%# v\n", readable.Formatter(clone_cmd))
-		_ = git.RunClone(clone_cmd);
+		cmd_args := git.GitCloneCmdArgs(clone_path_base + "/" + dest_dir, dep)
+		_, _ = git.RunClone(cmd_args);
 	}
 
 	return err

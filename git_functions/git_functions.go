@@ -2,17 +2,18 @@ package git_functions
 // vim: noet ts=4 sw=4 sr smartindent:
 
 import (
-	"bytes"
+	"dep"
+
 	"fmt"
-	"toml_cfg"
 	"os/exec"
-	"sync"
+	"strings"
 )
 
 // git clone <d.Src> <opt_str> <clone_path>
 const clone_cmd_tmpl = "git clone %s %s %s"
+const cmd = "git"
 
-func Options(d toml_cfg.DepInfo) []string {
+func Options(d dep.DepInfo) []string {
 
 	var options []string
 
@@ -28,7 +29,7 @@ func Options(d toml_cfg.DepInfo) []string {
 }
 
 // returns array for Exec.Cmd.Run()
-func GitCloneCmdArgs(clone_path string, d toml_cfg.DepInfo) []string {
+func GitCloneCmdArgs(clone_path string, d dep.DepInfo) []string {
 
 	var clone_cmd []string
 
@@ -43,25 +44,16 @@ func GitCloneCmdArgs(clone_path string, d toml_cfg.DepInfo) []string {
 	return clone_cmd
 }
 
-func RunClone(clone_cmd []string) string{
-	fmt.Printf("INFO: running ... %v\n\n",clone_cmd)
-}
-
-func exe_cmd(cmd string, cmd_args []string, wg *sync.WaitGroup) {
-	fmt.Println("command is ",cmd)
-	// splitting head => g++ parts => rest of the command
+func RunClone(cmd_args []string) ([]byte, error) {
+	fmt.Printf("%s %s\n", cmd, strings.Join(cmd_args[:], " "))
 
 	out, err := exec.Command(cmd, cmd_args...).CombinedOutput()
+
 	if err != nil {
 		fmt.Printf("%s\n", err)
 	}
 	fmt.Printf("%s\n", out)
-	wg.Done() // Need to signal to waitgroup that this goroutine is done
+
+	return out, err
 }
 
-// Given the clone_path exists, make sure it is the expected cloned repo
-// ... doesn't check depth, just repo src and branch or tag
-func IsExpectedRepo(clone_path string, d toml_cfg.DepInfo) (bool, error) {
-	var err error
-	return true, err
-}
