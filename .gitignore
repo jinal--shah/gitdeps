@@ -1,0 +1,5 @@
+**/build_ami
+**/packer_includes
+**/.ssh
+**/*.pem
+**/*.swp

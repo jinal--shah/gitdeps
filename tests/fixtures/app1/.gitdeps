@@ -1,0 +1,9 @@
+[deps]
+	[deps.build_alpine]
+	src = "git@github.com:EurostarDigital/build_ami"
+	ref = "master"
+	depth = "1"
+
+	[deps.coreos_setup]
+	src = "git://github.com/jinal--shah/demo-coreos-vagrant-setup"
+	ref = "add-docker-cleanup-script"
