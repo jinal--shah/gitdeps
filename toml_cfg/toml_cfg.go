@@ -18,7 +18,8 @@ func Read(toml_file string) (TomlCfg, error) {
 
 	_, err := toml.DecodeFile(toml_file, &c)
 	if err != nil {
-		fmt.Println(err)
+		err_msg := "ERROR: [%s] - problem with toml file:\n%s\n"
+		err = fmt.Errorf(err_msg, toml_file, err)
 		return c, err
 	}
 
@@ -26,14 +27,12 @@ func Read(toml_file string) (TomlCfg, error) {
 	return c, err
 }
 
-func (c TomlCfg) ValidateDeps(toml_file string) error {
+func (c TomlCfg) ValidateDeps(toml_file string) (err error) {
 
-	var err error
-
-	fmt.Println("INFO: validating toml file " + toml_file)
+	fmt.Printf("INFO: [%s] - validating toml file\n", toml_file)
 
 	for clone_dir, d := range c.Deps {
-		err = d.ValidateRef(clone_dir)
+		err = d.Validate(toml_file, clone_dir)
 		if err != nil {
 			return err
 		}
