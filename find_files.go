@@ -1,4 +1,4 @@
-package find_files
+package gitdeps
 // vim: noet ts=4 sw=4 sr smartindent:
 
 import (
@@ -29,7 +29,7 @@ func Recursively(root string, f string) ([]string, error) {
 	err := filepath.Walk(root, filterMatches)
 
 	if err != nil {
-		fmt.Printf("ERROR: ", err)
+		err = fmt.Errorf("ERROR: [looking under %s] %s", root, err)
 	}
 	return file_list, err
 }

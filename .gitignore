@@ -1,5 +1,8 @@
-**/build_ami
-**/packer_includes
 **/.ssh
 **/*.pem
 **/*.swp
+tests/experiments
+tests/fixtures/app1/*
+tests/fixtures/app3/*
+!**/.gitdeps
+github.com/

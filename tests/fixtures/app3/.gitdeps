@@ -1,10 +1,12 @@
 [deps]
 	[deps.build_ami]
-	src = "git@github.com:EurostarDigital/build_ami"
-	ref = "master"
-	depth = "1"
+	src = "https://github.com/jinal--shah/build_ami"
+	ref = "0.0.8"
+	depth = "2"
 
+    # using empty depth value - should be ignored
 	[deps.build_ami_coreos]
-	src = "git@github.com:EurostarDigital/build_ami_coreos"
-	ref = "add-docker-cleanup-script"
+	src = "git@github.com:jinal--shah/build_ami_coreos"
+	ref = "20160713153244"
+	depth = ""
 

@@ -1,8 +1,7 @@
-package toml_cfg
+package gitdeps
 // vim: noet ts=4 sw=4 sr smartindent:
 
 import (
-	"errors"
     "fmt"
 
 	toml "github.com/BurntSushi/toml"
@@ -12,19 +11,14 @@ type TomlCfg struct {
 	Deps map[string]DepInfo
 }
 
-type DepInfo struct {
-	Src   string
-	Ref   string
-	Depth string
-}
-
 func Read(toml_file string) (TomlCfg, error) {
 
 	var c TomlCfg
 
 	_, err := toml.DecodeFile(toml_file, &c)
 	if err != nil {
-		fmt.Println(err)
+		err_msg := "ERROR: [%s] - problem with toml file:\n%s\n"
+		err = fmt.Errorf(err_msg, toml_file, err)
 		return c, err
 	}
 
@@ -32,30 +26,15 @@ func Read(toml_file string) (TomlCfg, error) {
 	return c, err
 }
 
-func (c TomlCfg) ValidateDeps(toml_file string) error {
+func (c TomlCfg) ValidateDeps(toml_file string) (err error) {
 
-	var err error
-
-	fmt.Println("INFO: validating toml file " + toml_file)
+	fmt.Printf("INFO: [%s] - validating toml file\n", toml_file)
 
 	for clone_dir, d := range c.Deps {
-		err = d.ValidateRef(clone_dir)
+		err = d.Validate(toml_file, clone_dir)
 		if err != nil {
 			return err
 		}
-	}
-
-	return err
-}
-
-func (d DepInfo) ValidateRef(clone_dir string) error {
-
-	var err error
-
-	if d.Ref == "" {
-		err_tmpl := "ERROR: ref not supplied for src %s in [deps.%s]\n"
-		err_msg := fmt.Sprintf(err_tmpl, d.Src, clone_dir)
-		err = errors.New(err_msg)
 	}
 
 	return err
