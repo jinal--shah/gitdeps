@@ -1,8 +1,10 @@
-# go-get-gitdeps
+# gitdeps
 
 [1]: https://github.com/hashicorp/go-getter "Hashicorp go-getter on github"
 [2]: https://github.com/toml-lang/toml "toml on github"
 [3]: https://github.com/jinal--shah/go-get-gitdeps/issues "go-get-gitdeps issues"
+
+**WARNING: not yet usable ...**
 
 _... buildable binary to recursively grab sources from git repos by branch or tag_
 
@@ -18,9 +20,47 @@ i.e. gitdeps can fetch repos in the current dir's .gitdeps (level 1) and fetch a
 listed in those repos (level 2). It can continue to fetch any gitdeps in the level 2 repos
 (level 3) but after that it will fail.
 
-## TODO
+## BUILD
 
-See [Issues] [3]
+This should create you a binary that works on any modern linux, 
+though note the shelled out commands that you also need
+available in your path ...
+
+```bash
+
+# ... assuming you've installed golang 1.6+
+
+export GOBIN=/usr/local/bin # will install godeps bin to $GOBIN
+export GOPATH=$HOME/work # amend to your workspace
+[ ! -e $GOPATH ] && mkdir $GOPATH; cd $GOPATH
+
+go get github.com/jinal--shah/gitdeps
+go install github.com/jinal--shah/gitdeps/cmd/gitdeps.go
+
+# Now go forth and pepper your git repos with .gitdeps files ...
+
+```
+
+## RUN THE BINARY
+
+You will need the following cmds installed and available in your PATH:
+
+* git
+* grep
+* awk
+
+Build as above and just run `gitdeps` from the dir containing your
+.gitdeps file. 
+
+### ... or RUN WITHOUT BUILDING ...
+Alternatively, install golang and create a GOPATH as above then:
+
+```bash
+
+go get github.com/jinal--shah/gitdeps
+go run github.com/jinal--shah/gitdeps/cmd/gitdeps.go
+
+```
 
 ## .gitdeps file
 
@@ -88,4 +128,8 @@ It also ended up wanting some of those versioned reusable bundles of shell scrip
 a git repo. _Chicken, meet egg._
 
 But hey, if you find a way, please do get in touch.
+
+## TODO
+
+See [Issues] [3]
 
