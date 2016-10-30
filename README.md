@@ -30,7 +30,7 @@ available in your path ...
 
 # ... assuming you've installed golang 1.6+
 
-export GOBIN=/usr/local/bin # will install godeps bin to $GOBIN
+export GOBIN=/usr/local/bin # will install gitdeps binary to $GOBIN
 export GOPATH=$HOME/work # amend to your workspace
 [ ! -e $GOPATH ] && mkdir $GOPATH; cd $GOPATH
 

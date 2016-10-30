@@ -4,7 +4,7 @@ package gitdeps
 import (
     "fmt"
 
-	toml "github.com/BurntSushi/toml"
+	toml "github.com/jinal--shah/toml"
 )
 
 type TomlCfg struct {
