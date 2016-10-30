@@ -2,9 +2,7 @@ package main
 // vim: noet ts=4 sw=4 sr smartindent:
 
 import (
-	"find_files"
-	"toml_cfg"
-	git "git_functions"
+	gd "github.com/jinal--shah/gitdeps"
 
 	"path/filepath"
 	"fmt"
@@ -12,8 +10,7 @@ import (
 )
 
 type Gitdep struct {
-	*dep.DepInfo
-	*git.GitCmds
+	*gd.DepInfo
 }
 
 // we always begin from current working directory
@@ -31,7 +28,7 @@ func main() {
 }
 
 func ProcessDepsFiles(start_dir string) {
-	file_list, err := find_files.Recursively(start_dir, filename_match)
+	file_list, err := gd.Recursively(start_dir, filename_match)
 	if err != nil {
 		os.Exit(1)
 	}
@@ -49,7 +46,7 @@ func ProcessDepsFiles(start_dir string) {
 }
 
 func ProcessFile(file_name string) error {
-	c, err := toml_cfg.Read(file_name)
+	c, err := gd.Read(file_name)
 	if err != nil {
 		os.Exit(1)
 	}
@@ -57,8 +54,8 @@ func ProcessFile(file_name string) error {
 	clone_path_base := filepath.Dir(file_name)
 
 	for dest_dir, dep := range c.Deps {
-		cmd_args := git.GitCloneCmdArgs(clone_path_base + "/" + dest_dir, dep)
-		_, _ = git.RunClone(cmd_args);
+		cmd_args := gd.GitCloneCmdArgs(clone_path_base + "/" + dest_dir, dep)
+		_, _ = gd.RunClone(cmd_args);
 	}
 
 	return err

@@ -1,9 +1,7 @@
-package git_functions
+package gitdeps
 // vim: noet ts=4 sw=4 sr smartindent:
 
 import (
-	"dep"
-
 	"fmt"
 	"os/exec"
 	"strings"
@@ -13,7 +11,7 @@ import (
 const clone_cmd_tmpl = "git clone %s %s %s"
 const cmd = "git"
 
-func Options(d dep.DepInfo) []string {
+func Options(d DepInfo) []string {
 
 	var options []string
 
@@ -29,7 +27,7 @@ func Options(d dep.DepInfo) []string {
 }
 
 // returns array for Exec.Cmd.Run()
-func GitCloneCmdArgs(clone_path string, d dep.DepInfo) []string {
+func GitCloneCmdArgs(clone_path string, d DepInfo) []string {
 
 	var clone_cmd []string
 

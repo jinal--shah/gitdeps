@@ -1,4 +1,4 @@
-package dep
+package gitdeps
 // vim: noet ts=4 sw=4 sr smartindent:
 import (
     "fmt"

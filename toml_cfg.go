@@ -1,15 +1,14 @@
-package toml_cfg
+package gitdeps
 // vim: noet ts=4 sw=4 sr smartindent:
 
 import (
     "fmt"
-	"dep"
 
 	toml "github.com/BurntSushi/toml"
 )
 
 type TomlCfg struct {
-	Deps map[string]dep.DepInfo
+	Deps map[string]DepInfo
 }
 
 func Read(toml_file string) (TomlCfg, error) {

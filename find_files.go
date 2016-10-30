@@ -1,4 +1,4 @@
-package find_files
+package gitdeps
 // vim: noet ts=4 sw=4 sr smartindent:
 
 import (
