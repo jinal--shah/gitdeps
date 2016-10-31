@@ -1,11 +1,11 @@
-[deps]
-	[deps.build_ami]
+[gitdeps]
+	[gitdeps.build_ami]
 	src = "https://github.com/jinal--shah/build_ami"
 	ref = "0.0.8"
 	depth = "2"
 
     # using empty depth value - should be ignored
-	[deps.build_ami_coreos]
+	[gitdeps.build_ami_coreos]
 	src = "git@github.com:jinal--shah/build_ami_coreos"
 	ref = "20160713153244"
 	depth = ""

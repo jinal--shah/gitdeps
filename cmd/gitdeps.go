@@ -4,14 +4,12 @@ package main
 import (
     gd "github.com/jinal--shah/gitdeps"
 
-    "path/filepath"
     "fmt"
     "os"
 )
 
 // we always begin from current working directory
 var err_msg string
-const filename_match = ".gitdeps"
 
 func main() {
     root_dir, err := os.Getwd()
@@ -24,7 +22,7 @@ func main() {
 }
 
 func ProcessDepsFiles(start_dir string) {
-    file_list, err := gd.Recursively(start_dir, filename_match)
+    file_list, err := gd.NewFiles(start_dir).Recursively()
     if err != nil {
         os.Exit(1)
     }
@@ -44,14 +42,13 @@ func ProcessDepsFiles(start_dir string) {
 func ProcessFile(file_name string) error {
     c, err := gd.Read(file_name)
     if err != nil {
+        fmt.Println(err)
         os.Exit(1)
     }
 
-    clone_path_base := filepath.Dir(file_name)
-
-    for dest_dir, dep := range c.Deps {
-        cmd_args := gd.GitCloneCmdArgs(clone_path_base + "/" + dest_dir, dep)
-        _, _ = gd.RunClone(cmd_args);
+    fmt.Println("... starting cloning for " + file_name)
+    for _, g := range c.Gitdeps {
+        _, err = g.GitClone();
     }
 
     return err

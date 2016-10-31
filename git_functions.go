@@ -7,43 +7,40 @@ import (
     "strings"
 )
 
-// git clone <d.Src> <opt_str> <clone_path>
-const clone_cmd_tmpl = "git clone %s %s %s"
 const cmd = "git"
 
-func Options(d DepInfo) []string {
+func (g *Gitdep) Options() (options []string) {
 
-    var options []string
-
-    if d.Ref != "" {
-        options = append(options, "--branch", d.Ref)
+    if g.Ref != "" {
+        options = append(options, "--branch", g.Ref)
     }
 
-    if d.Depth != "" {
-        options = append(options, "--depth", d.Depth)
+    if g.Depth != "" {
+        options = append(options, "--depth", g.Depth)
     }
 
     return options
 }
 
-// returns array for Exec.Cmd.Run()
-func GitCloneCmdArgs(clone_path string, d DepInfo) []string {
+// returns array for ClondCmd
+func (g *Gitdep) GitCloneCmdArgs() (clone_args []string) {
 
-    var clone_cmd []string
+    options := g.Options()
 
-    options := Options(d)
-
-    clone_cmd = append(clone_cmd, "clone", d.Src)
+    clone_args = append(clone_args, "clone", g.Src)
     if len(options) > 0 {
-        clone_cmd = append(clone_cmd, options...)
+        clone_args = append(clone_args, options...)
     }
-    clone_cmd = append(clone_cmd, clone_path)
+    clone_args = append(clone_args, g.ClonePath() )
 
-    return clone_cmd
+    return clone_args
 }
 
-func RunClone(cmd_args []string) ([]byte, error) {
-    fmt.Printf("%s %s\n", cmd, strings.Join(cmd_args[:], " "))
+func (g *Gitdep) GitClone() ([]byte, error) {
+
+    cmd_args := g.GitCloneCmdArgs()
+
+    fmt.Printf("...EXECUTING:\n%s %s\n\n", cmd, strings.Join(cmd_args[:], " "))
 
     out, err := exec.Command(cmd, cmd_args...).CombinedOutput()
 
