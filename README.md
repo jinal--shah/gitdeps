@@ -124,10 +124,8 @@ that could be built as a binary without bindings to os-specific c libs.
 Tried it. The shell script started off as a couple of for-loops but became quite
 the monstrosity after adding config file parsing, error checking and validation.
 
-It also ended up wanting some of those versioned reusable bundles of shell scripts sitting in
+It could have really used some of those versioned reusable bundles of shell scripts sitting in
 a git repo. _Chicken, meet egg._
-
-But hey, if you find a way, please do get in touch.
 
 ## TODO
 
