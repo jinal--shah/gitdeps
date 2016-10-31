@@ -68,15 +68,15 @@ go run github.com/jinal--shah/gitdeps/cmd/gitdeps.go
 
 * but all values must be quoted 
 
-* opening section header must be: `[deps]`
+* opening section header must be: `[gitdeps]`
 
-* repo section headers must be `[deps.some_dir_for_clone]`
+* repo section headers must be `[gitdeps.some_dir_for_clone]`
 
 ### .gitdeps repo section
 
 ```toml
-[deps]
-    [deps.<dir to clone in to>]
+[gitdeps]
+    [gitdeps.<dir to clone in to>]
     src   = "<mandatory, any uri accepted by git clone cmd>"
     ref   = "<mandatory, any value accepted by git --branch option>"
     depth = "<optional, any value accepted by git --depth option>"
@@ -85,13 +85,13 @@ go run github.com/jinal--shah/gitdeps/cmd/gitdeps.go
 ### example: .gitdeps file
 
 ```toml
-[deps]
-    [deps.build_alpine]
+[gitdeps]
+    [gitdeps.build_alpine]
     src = "git@github.com:jinal--shah/build_ami"
     ref = "master"
     depth = "1"
 
-    [deps.coreos]
+    [gitdeps.coreos]
     src = "https://github.com/jinal--shah/packer_includes"
     ref = "2.1.0"
 ```

@@ -1,9 +1,9 @@
-[deps]
-	[deps.build_alpine]
+[gitdeps]
+	[gitdeps.build_alpine]
 	src = "git@github.com:EurostarDigital/build_ami"
 	ref = "master"
 	depth = "1"
 
-	[deps.coreos_setup]
+	[gitdeps.coreos_setup]
 	src = "https://github.com/jinal--shah/build-scripts-alpine"
 	ref = "0.0.3"
