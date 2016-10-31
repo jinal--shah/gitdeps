@@ -50,6 +50,9 @@ func ProcessFile(file_name string) (err error) {
 
     for _, g := range c.Gitdeps {
         _, err = g.GitClone();
+        if err != nil {
+            fmt.Println(err)
+        }
     }
 
     return err

@@ -49,9 +49,11 @@ func (g *Gitdep) GitClone() ([]byte, error) {
 
     out, err := exec.Command(cmd, cmd_args...).CombinedOutput()
 
-    fmt.Printf("INFO: %s clone output:\n%s\n", msg_context, out)
     if err != nil {
+        g.e(string(out))
         g.e(err.Error())
+    } else {
+        fmt.Printf("INFO: %s clone output:\n%s\n", msg_context, out)
     }
 
     err = g.sprintfe(g)
