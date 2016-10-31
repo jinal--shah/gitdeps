@@ -2,9 +2,10 @@ package gitdeps
 // vim: et ts=4 sw=4 sr smartindent:
 import (
     "fmt"
+    "os"
+    "path/filepath"
     "strconv"
     "strings"
-    "path/filepath"
 )
 
 type Gitdep struct {
@@ -68,5 +69,11 @@ func (g *Gitdep) ValidateDepth() {
 
 func (g *Gitdep) ClonePath() (string) {
     return filepath.Dir(g.File) + "/" + g.CloneDir
+}
+
+func (g *Gitdep) ClonePathExists() (bool) {
+    if _, err := os.Stat(g.ClonePath()); err == nil {
+        return true
+    }
 }
 
