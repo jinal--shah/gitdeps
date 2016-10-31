@@ -13,7 +13,7 @@ const filename_match = ".gitdeps"
 type Files struct {
     StartDir  string
     Found []string
-    Errs
+    Console
 }
 
 func NewFiles(start_dir string) *Files {
@@ -21,8 +21,8 @@ func NewFiles(start_dir string) *Files {
 }
 
 // satisfy context interface
-func (g *Files) e_context(msg string) (string) {
-    return fmt.Sprintf("ERROR: [start_dir:%s]: %s\n", g.StartDir, msg)
+func (g *Files) context() (string) {
+    return fmt.Sprintf("[start_dir:%s]", g.StartDir)
 }
 
 func (g *Files) filterMatches(path string, f os.FileInfo, err error) (error) {

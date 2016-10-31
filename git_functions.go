@@ -40,12 +40,8 @@ func (g *Gitdep) GitClone() ([]byte, error) {
 
     cmd_args := g.GitCloneCmdArgs()
 
-    msg_context := fmt.Sprintf("[file:%s][gitdeps.%s]", g.File, g.CloneDir)
-
-    fmt.Printf(
-        "INFO: %s EXECUTING:\nINFO:%s %s\n\n",
-        msg_context, cmd, strings.Join(cmd_args[:], " "),
-    )
+    g.printfi(g, "... executing:")
+    g.printfi(g, fmt.Sprintf("%s %s", cmd, strings.Join(cmd_args[:], " ")))
 
     out, err := exec.Command(cmd, cmd_args...).CombinedOutput()
 
@@ -53,7 +49,7 @@ func (g *Gitdep) GitClone() ([]byte, error) {
         g.e(string(out))
         g.e(err.Error())
     } else {
-        fmt.Printf("INFO: %s clone output:\n%s\n", msg_context, out)
+        g.printfi(g, string(out))
     }
 
     err = g.sprintfe(g)

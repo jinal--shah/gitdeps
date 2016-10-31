@@ -13,11 +13,11 @@ type Gitdep struct {
     Src         string      // toml: git origin location
     Ref         string      // toml: git clone / checkout arg
     Depth       string      // toml: git clone / checkout arg
-    Errs                   // promoted methods for error aggregation and visibility
+    Console                 // promoted methods for console msg aggregation and visibility
 }
 
-func (g *Gitdep) e_context(msg string) (string) {
-    return fmt.Sprintf("ERROR: [file:%s][deps.%s]: %s\n", g.File, g.CloneDir, msg)
+func (g *Gitdep) context() (string) {
+    return fmt.Sprintf("[file:%s][deps.%s]", g.File, g.CloneDir)
 }
 
 // ... add file and clone_dir info to Gitdep, and validate
