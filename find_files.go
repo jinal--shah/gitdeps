@@ -22,7 +22,7 @@ func NewFiles(start_dir string) *Files {
 
 // satisfy context interface
 func (g *Files) context() (string) {
-    return fmt.Sprintf("[start_dir:%s]", g.StartDir)
+    return fmt.Sprintf("[start_dir:%s][finding %s]", g.StartDir, filename_match)
 }
 
 func (g *Files) filterMatches(path string, f os.FileInfo, err error) (error) {
@@ -45,6 +45,14 @@ func (g *Files) Recursively() (file_list []string, err error) {
 
     file_list = g.Found
     err = g.sprintfe(g)
+
+    if len(file_list) > 0 {
+        for _, file := range file_list {
+            g.printfi(g, "found " + file)
+        }
+    } else {
+        g.printfi(g, "No matching files found.")
+    }
 
     return file_list, err
 }

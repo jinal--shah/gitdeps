@@ -16,6 +16,7 @@ type Gitdep struct {
     Console                 // promoted methods for console msg aggregation and visibility
 }
 
+// ... implement Console interface method
 func (g *Gitdep) context() (string) {
     return fmt.Sprintf("[file:%s][deps.%s]", g.File, g.CloneDir)
 }

@@ -25,14 +25,11 @@ func main() {
 
 func ProcessDepsFiles(start_dir string) (err error) {
     f := gd.NewFiles(start_dir)
+
     file_list, err := f.Recursively()
     if err != nil {
         fmt.Println(err)
         return err
-    }
-
-    if len(file_list) == 0 {
-        fmt.Printf("INFO: [start_dir:%s] - No files found\n", start_dir)
     }
 
     for _, file_name := range file_list {
