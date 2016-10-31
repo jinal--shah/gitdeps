@@ -8,45 +8,46 @@ import (
     "os"
 )
 
-// we always begin from current working directory
-var err_msg string
-
 func main() {
     root_dir, err := os.Getwd()
     if err != nil {
         fmt.Println(err)
-    }
-
-    ProcessDepsFiles(root_dir)
-
-}
-
-func ProcessDepsFiles(start_dir string) {
-    file_list, err := gd.NewFiles(start_dir).Recursively()
-    if err != nil {
         os.Exit(1)
     }
 
-    if len(file_list) > 0 {
-        fmt.Printf("INFO: [looking under %s] - found files:\n%v\n", start_dir, file_list)
-    } else {
-        fmt.Printf("INFO: [looking under %s] - No files found\n", start_dir)
+    err = ProcessDepsFiles(root_dir)
+    if err != nil {
+        fmt.Println(err)
+        os.Exit(1)
+    }
+
+}
+
+func ProcessDepsFiles(start_dir string) (err error) {
+    f := gd.NewFiles(start_dir)
+    file_list, err := f.Recursively()
+    if err != nil {
+        fmt.Println(err)
+        return err
+    }
+
+    if len(file_list) == 0 {
+        fmt.Printf("INFO: [start_dir:%s] - No files found\n", start_dir)
     }
 
     for _, file_name := range file_list {
         err = ProcessFile(file_name)
     }
+    return err
 
 }
 
-func ProcessFile(file_name string) error {
+func ProcessFile(file_name string) (err error) {
     c, err := gd.Read(file_name)
     if err != nil {
-        fmt.Println(err)
-        os.Exit(1)
+        return err
     }
 
-    fmt.Println("... starting cloning for " + file_name)
     for _, g := range c.Gitdeps {
         _, err = g.GitClone();
     }

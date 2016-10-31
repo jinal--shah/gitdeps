@@ -10,30 +10,14 @@ import (
 type Gitdep struct {
     File        string      // abs path to .gitdeps file
     CloneDir    string      // dir within .gitdeps dir to clone in to
-    Errs      []string      // collected err msgs
     Src         string      // toml: git origin location
     Ref         string      // toml: git clone / checkout arg
     Depth       string      // toml: git clone / checkout arg
+    Errs                   // promoted methods for error aggregation and visibility
 }
 
-func (g *Gitdep) e(msg string) {
-    g.Errs = append(g.Errs, msg)
-}
-
-// returns formatted multiline error messages
-// - each line should contain context gitdeps file / clonedir info
-func (g *Gitdep) sprintfe() (err error){
-
-    if g.failed() {
-        msg_combined := ""
-        for _, msg := range g.Errs {
-            msg = fmt.Sprintf("ERROR: [file:%s][deps.%s]: %s\n", g.File, g.CloneDir, msg)
-            msg_combined = msg + msg_combined
-        }
-        err = fmt.Errorf("%s", msg_combined)
-    }
-
-    return err
+func (g *Gitdep) e_context(msg string) (string) {
+    return fmt.Sprintf("ERROR: [file:%s][deps.%s]: %s\n", g.File, g.CloneDir, msg)
 }
 
 // ... add file and clone_dir info to Gitdep, and validate
@@ -45,17 +29,12 @@ func (g *Gitdep) Configure(toml_file string, clone_dir string) (err error) {
     return err
 }
 
-// true if there has been an error
-func (g *Gitdep) failed() (bool) {
-    return len(g.Errs) > 0
-}
-
 func (g *Gitdep) Validate() (err error) {
     g.ValidateCloneDir()
     g.ValidateSrc()
     g.ValidateRef()
     g.ValidateDepth()
-    err = g.sprintfe() // err only has a value if any err msgs captured
+    err = g.sprintfe(g) // err only has a value if any err msgs captured
     return err
 }
 

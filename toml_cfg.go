@@ -8,7 +8,7 @@ import (
 )
 
 type TomlCfg struct {
-    Gitdeps map[string]*Gitdep // pointers to Gitdep lets us modify in for loops
+    Gitdeps  map[string]*Gitdep // pointers to Gitdep lets us modify in for loops
 }
 
 func Read(toml_file string) (c TomlCfg, err error) {
