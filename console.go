@@ -16,15 +16,23 @@ func (c *Console) e(msg string) {
     c.Errors = append(c.Errors, msg)
 }
 
+// print INFO
 func (c *Console) printfi(ci console, msg string) {
     context_msg := ci.context()
     fmt.Printf("INFO: %s: %s\n", context_msg, msg)
+}
+
+// print WARNING
+func (c *Console) printfw(ci console, msg string) {
+    context_msg := ci.context()
+    fmt.Printf("WARNING: %s: %s\n", context_msg, msg)
 }
 
 func (c *Console) failed() (bool) {
 	return len(c.Errors) > 0
 }
 
+// ERROR: doesn't print error msgs, just formats them.
 func (c *Console) sprintfe(ci console) (err error) {
 	if c.failed() {
 		msg_combined := ""

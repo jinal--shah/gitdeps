@@ -117,14 +117,3 @@ func (g *Gitdep) CheckCurrentSrc() (err error) {
     err = g.sprintfe(g)
     return err
 }
-
-func (g *Gitdep) CheckCurrentRef() (err error) {
-}
-
-
-func (g *Gitdep) GitStashChanges() (err error) {
-}
-
-// need to do a fetch from origin
-func (g *Gitdep) GitCheckoutRef() (err error) {
-}

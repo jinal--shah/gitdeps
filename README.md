@@ -3,6 +3,7 @@
 [1]: https://github.com/hashicorp/go-getter "Hashicorp go-getter on github"
 [2]: https://github.com/toml-lang/toml "toml on github"
 [3]: https://github.com/jinal--shah/go-get-gitdeps/issues "go-get-gitdeps issues"
+[4]: http://stackoverflow.com/a/37203240 "stack overflow: the depth of a shallow clone"
 
 **WARNING: not yet usable ...**
 
@@ -19,6 +20,31 @@ There is no circular dependency checking, just a default maximum recursion level
 i.e. gitdeps can fetch repos in the current dir's .gitdeps (level 1) and fetch any gitdeps
 listed in those repos (level 2). It can continue to fetch any gitdeps in the level 2 repos
 (level 3) but after that it will fail.
+
+## USAGE
+
+### `gitdeps get`
+
+* `--ignore-existing`:
+
+  If a dir or file already exists where you wanted your cloned gitdep dir,
+  default behaviour is to error. This flag will produce a warning instead.
+
+  Useful, if you are developing.
+
+* `--start-dir`
+
+  Directory in which to begin. Defaults to current working dir.
+
+### `gitdeps verify`
+
+Run through .gitdeps files, and make sure key\* requirements are satisfied.
+
+\* ... depth is not verified - see [here for reasons] [4].
+  
+* `--start-dir`
+
+  Directory in which to begin. Defaults to current working dir.
 
 ## BUILD
 
@@ -113,21 +139,27 @@ git repos that I want available when building a project.
 But I don't need to build and version packages of these flat file assets and stick
 them in an asset repo when I've already version-tagged the git sources.
 
-_Seriously, I just want to tie versions of those sources to a version of the project_
-_I want to build ..._
-
-Something like the mercurial Hashimoto's [go-getter] [1], but 
-that could be built as a binary without bindings to os-specific c libs.
+I needed something like the mercurial Hashimoto's [go-getter] [1],
+but built as a statically compiled single binary without support for multiple backends
+or _ungitly_ - yes, that's a word now - configuration syntax.
 
 ### ... um, why not just use a shell script?
 
-Tried it. The shell script started off as a couple of for-loops but became quite
-the monstrosity after adding config file parsing, error checking and validation.
+Tried it. Started off as a couple of for-loops, ended up as a library or scripts itself
+after adding config file parsing, error checking and validation.
 
 It could have really used some of those versioned reusable bundles of shell scripts sitting in
 a git repo. _Chicken, meet egg._
 
+Ultimately a binary just seemed a better fit.
+
 ## TODO
 
 See [Issues] [3]
+
+Some git commands that need to be run from within the git directory even if you specify `--git-dir`.
+Unfortunately concurrent go routines do not play nice with changes to the current working directory,
+as the latter changes the pwd of the process (on os that support os.Chdir calls)
+
+Upshot: either lose the parallelism or lose the additional validation offered by those git commands.
 
