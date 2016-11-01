@@ -15,34 +15,38 @@ _... buildable binary to recursively grab sources from git repos by branch or ta
 
 * If any of the fetched sources contain a .gitdeps file, it'll fetch those too.
 
-There is no circular dependency checking, just a default maximum recursion level of 3.
+There is no circular dependency checking. However there is a default maximum nested level of 3 sets of gitdeps, after which `gitdeps get` refuses to process further gitdeps files.
 
-i.e. gitdeps can fetch repos in the current dir's .gitdeps (level 1) and fetch any gitdeps
-listed in those repos (level 2). It can continue to fetch any gitdeps in the level 2 repos
-(level 3) but after that it will fail.
+i.e. gitdeps can fetch repos in the current dir's .gitdeps (level 1) and process any .gitdeps
+found in those repos (level 2). It will continue to fetch any gitdeps found in the level 2
+repos as well (level 3) but after that it will fail.
 
 ## USAGE
 
-### `gitdeps get`
+### 
 
-* `--ignore-existing`:
+* `-ignore-existing`:
 
   If a dir or file already exists where you wanted your cloned gitdep dir,
   default behaviour is to error. This flag will produce a warning instead.
 
   Useful, if you are developing.
 
-* `--start-dir`
+* `-start-dir </path/to/dir/tree/to/traverse>`
 
   Directory in which to begin. Defaults to current working dir.
 
-### `gitdeps verify`
+* `-max-level <int>`
+
+  max number of iterations to get a cloned gitdep descendant's own gitdeps
+
+### `gitdeps`
 
 Run through .gitdeps files, and make sure key\* requirements are satisfied.
 
 \* ... depth is not verified - see [here for reasons] [4].
   
-* `--start-dir`
+* `-start-dir`
 
   Directory in which to begin. Defaults to current working dir.
 

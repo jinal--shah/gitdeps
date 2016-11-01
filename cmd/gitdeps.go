@@ -4,6 +4,7 @@ package main
 import (
     gd "github.com/jinal--shah/gitdeps"
 
+    "flag"
     "fmt"
     "os"
 )
@@ -14,6 +15,7 @@ func main() {
         fmt.Println(err)
         os.Exit(1)
     }
+
 
     err = ProcessDepsFiles(root_dir)
     if err != nil {
