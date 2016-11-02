@@ -1,4 +1,5 @@
 package main
+// package main: to generate binary `gitdeps`
 // vim: et ts=4 sw=4 sr smartindent:
 
 import (
@@ -9,13 +10,14 @@ import (
 )
 
 func main() {
-    root_dir, err := os.Getwd()
+
+    cmd, err := MakeCmd()
+
     if err != nil {
-        fmt.Println(err)
         os.Exit(1)
     }
 
-    err = ProcessDepsFiles(root_dir)
+    err = ProcessDepsFiles(&cmd)
     if err != nil {
         fmt.Println(err)
         os.Exit(1)
